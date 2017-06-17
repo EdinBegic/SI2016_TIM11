@@ -36,7 +36,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
     private static AccountRepository accountRepository;
     private static Logger logger = Logger.getLogger(JWTLoginFilter.class.getName());
     static final String HEADER_CORS = "Access-Control-Allow-Origin";
-    static final String ALLOWED_ORIGIN = "http://localhost:4200";
+    static final String ALLOWED_ORIGIN = "http://http://ws-inventura.surge.sh";
 
     public JWTLoginFilter(String url, AuthenticationManager authManager) {
         super(new AntPathRequestMatcher(url));
