@@ -17,6 +17,9 @@
  - Musić Sanil
  - Slinić Faruk
 
+## Deployment
+Aplikaciji se može pristupiti na http://ws-inventura.surge.sh. Backend se izvršava na Heroku instanci kojoj se može pristupiti na https://infinite-hollows-98435.herokuapp.com. Obzirom da se koristi besplatan servis, može se desiti da backend u trenutku prvom pokretanja aplikacije bude pauziran. U tom slučaju je potrebno pričekati 1 minutu i ponovo pokrenuti aplikaciju.
+
 ## Upute
 Za pokretanje frontend-a, neophodno je imati instaliran NPM (skr. *Node Package Manager*). Backend se može pokrenuti ručno (izvršenjem odgovarajuće komande u konzoli), korištenjem Eclipse IDE ili Intellij IDEA. U repozitoriju se nalazi SQL dump tabele koja sadrži minimalne testne podatke.
 
