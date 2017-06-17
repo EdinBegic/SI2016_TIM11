@@ -15,14 +15,24 @@ import javax.validation.Valid;
 public class AccessLogController extends ReadOnlyController<AccessLog, AccessLogService> {
 
     @ResponseBody
+    @GetMapping("/access-logs/search-by/filter/{val}")
     public ResponseEntity filterByAccountUsernameOrFullName(@PathVariable("val") String filter) {
         return ResponseEntity.ok(service.getAllByFilter(filter));
     }
 
+    @Override
     @ResponseBody
+    @GetMapping("/access-logs/page/{pageNumber}")
     public ResponseEntity getPage(@PathVariable("pageNumber") int pageNumber) {
         Pageable page = new PageRequest(pageNumber-1, 20, Sort.Direction.DESC, "date");
 
         return ResponseEntity.ok(service.listAllByPage(page));
+    }
+
+    @Override
+    @ResponseBody
+    @GetMapping("/access-logs/all")
+    public Iterable<AccessLog> all() {
+        return super.all();
     }
 }

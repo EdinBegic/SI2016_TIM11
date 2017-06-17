@@ -11,10 +11,7 @@ import com.timxyz.services.exceptions.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -33,6 +30,7 @@ public class AuditItemController extends BaseController<AuditItem, AuditItemServ
     }
 
     @ResponseBody
+    @PostMapping("/auditItems/{id}/set-present")
     public ResponseEntity setPresent(@PathVariable("id") Long id, @RequestBody @Valid AuditItemSetPresentForm form) throws ServiceException {
         AuditItem item = service.get(id);
 
@@ -46,6 +44,7 @@ public class AuditItemController extends BaseController<AuditItem, AuditItemServ
     }
 
     @ResponseBody
+    @PostMapping("/auditItems/{id}/set-sku-correct")
     public ResponseEntity setSkuCorrect(@PathVariable("id") Long id, @RequestBody @Valid AuditItemSetSkuCorrectForm form) throws ServiceException {
         AuditItem item = service.get(id);
 
@@ -59,6 +58,7 @@ public class AuditItemController extends BaseController<AuditItem, AuditItemServ
     }
 
     @ResponseBody
+    @PostMapping("/auditItems/{id}/set-status")
     public ResponseEntity setStatus(@PathVariable("id") Long id, @RequestBody @Valid AuditItemSetStatusForm form) throws ServiceException {
         AuditItem item = service.get(id);
 

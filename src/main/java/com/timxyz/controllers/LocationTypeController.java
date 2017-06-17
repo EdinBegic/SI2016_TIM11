@@ -24,6 +24,7 @@ public class LocationTypeController extends BaseController<LocationType, Locatio
 
     @Transactional
     @ResponseBody
+    @PostMapping("/locationTypes")
     public ResponseEntity create(@RequestBody @Valid LocationTypeCreateForm newLocType, @RequestHeader("Authorization") String token) throws ServiceException {
         LocationType locationType = service.save(new LocationType(
                 newLocType.getName(),
@@ -37,6 +38,7 @@ public class LocationTypeController extends BaseController<LocationType, Locatio
 
     @Transactional
     @ResponseBody
+    @PostMapping("/locationTypes/{id}")
     public ResponseEntity update(@PathVariable("id") Long id, @RequestBody @Valid LocationTypeUpdateForm updatedLocationType, @RequestHeader("Authorization") String token) throws ServiceException {
         LocationType locationType = service.get(id);
 
@@ -49,9 +51,38 @@ public class LocationTypeController extends BaseController<LocationType, Locatio
 
         return ResponseEntity.ok(locationType);
     }
-        
+
+    @ResponseBody
+    @GetMapping("/locationTypes/filter-by/name")
     public Collection<LocationType> filterByName(@RequestParam("name") String name) {
         return service.filterByName(name);
-    }  
+    }
 
+    @Override
+    @ResponseBody
+    @GetMapping("/locationTypes/all")
+    public Iterable<LocationType> all() {
+        return super.all();
+    }
+
+    @Override
+    @ResponseBody
+    @GetMapping("/locationTypes/{id}")
+    public ResponseEntity get(Long id) throws ServiceException {
+        return super.get(id);
+    }
+
+    @Override
+    @ResponseBody
+    @DeleteMapping("/locationTypes/{id}")
+    public ResponseEntity delete(Long id, String token) throws ServiceException {
+        return super.delete(id, token);
+    }
+
+    @Override
+    @ResponseBody
+    @GetMapping("/locationTypes/page/{pageNumber}")
+    public ResponseEntity getPage(int pageNumber) {
+        return super.getPage(pageNumber);
+    }
 }

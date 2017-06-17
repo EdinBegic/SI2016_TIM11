@@ -21,6 +21,8 @@ public class ReportController {
     @Autowired
     private ReportService reportService;
 
+    @ResponseBody
+    @GetMapping("/reports/audit/{id}")
     public ResponseEntity<byte[]> auditPDFReport(@PathVariable("id") long id) {
         FileInputStream fileStream;
         try {

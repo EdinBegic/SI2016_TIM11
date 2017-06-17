@@ -40,6 +40,7 @@ public class ItemController extends BaseController<Item, ItemService> {
 
     @Transactional
     @ResponseBody
+    @PostMapping("/items")
     public ResponseEntity create(@RequestBody @Valid ItemCreateForm newItem, @RequestHeader("Authorization") String token) throws ServiceException {
         Item item = service.save(new Item(
                 newItem.getSkuNumber(),
@@ -64,6 +65,7 @@ public class ItemController extends BaseController<Item, ItemService> {
 
     @Transactional
     @ResponseBody
+    @PostMapping("/items/{id}")
     public ResponseEntity update(@PathVariable("id") Long id, @RequestBody @Valid ItemUpdateForm updatedItem, @RequestHeader("Authorization") String token) throws ServiceException {
         Item item = service.get(id);
 
@@ -85,7 +87,37 @@ public class ItemController extends BaseController<Item, ItemService> {
         return ResponseEntity.ok(item);
     }
 
+    @ResponseBody
+    @GetMapping("/items/filter-by/name")
     public Collection<Item> filterByName(@RequestParam("name") String name) {
         return service.filterByName(name);
+    }
+
+    @Override
+    @ResponseBody
+    @GetMapping("/items/all")
+    public Iterable<Item> all() {
+        return super.all();
+    }
+
+    @Override
+    @ResponseBody
+    @GetMapping("/items/{id}")
+    public ResponseEntity get(Long id) throws ServiceException {
+        return super.get(id);
+    }
+
+    @Override
+    @ResponseBody
+    @DeleteMapping("/items/{id}")
+    public ResponseEntity delete(Long id, String token) throws ServiceException {
+        return super.delete(id, token);
+    }
+
+    @Override
+    @ResponseBody
+    @GetMapping("/items/page/{pageNumber}")
+    public ResponseEntity getPage(int pageNumber) {
+        return super.getPage(pageNumber);
     }
 }

@@ -23,12 +23,10 @@ public abstract class ReadOnlyController<M extends BaseModel, S extends ReadOnly
         this.service = service;
     }
 
-    @ResponseBody
     public Iterable<M> all() {
         return service.all();
     }
 
-    @ResponseBody
     public ResponseEntity get(@PathVariable("id") Long id) {
         try {
             return ResponseEntity.ok(service.get(id));
@@ -37,7 +35,6 @@ public abstract class ReadOnlyController<M extends BaseModel, S extends ReadOnly
         }
     }
 
-    @ResponseBody
     public ResponseEntity getPage(@PathVariable("pageNumber") int pageNumber) {
         Pageable page = new PageRequest(pageNumber - 1, 5);
 

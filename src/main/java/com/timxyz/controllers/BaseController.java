@@ -30,13 +30,11 @@ public abstract class BaseController<M extends BaseModel, S extends BaseService<
     @Autowired
     protected LogHelperService logHelperService;
 
-    @ResponseBody
     public Iterable<M> all() {
         return service.all();
     }
 
     @Transactional
-    @ResponseBody
     public ResponseEntity create(@RequestBody @Valid M newModel, @RequestHeader("Authorization") String token) throws ServiceException {
         M model = service.save(newModel);
 
@@ -45,13 +43,11 @@ public abstract class BaseController<M extends BaseModel, S extends BaseService<
         return ResponseEntity.ok(model);
     }
 
-    @ResponseBody
     public ResponseEntity get(@PathVariable("id") Long id) throws ServiceException {
         return ResponseEntity.ok(service.get(id));
     }
 
     @Transactional
-    @ResponseBody
     public ResponseEntity delete(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) throws ServiceException {
         logForDelete(token, service.get(id));
 
@@ -61,7 +57,6 @@ public abstract class BaseController<M extends BaseModel, S extends BaseService<
 
     }
 
-    @ResponseBody
     public ResponseEntity getPage(@PathVariable("pageNumber") int pageNumber) {
         Pageable page = new PageRequest(pageNumber - 1, 5);
 

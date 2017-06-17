@@ -18,6 +18,7 @@ public class CategoryController extends BaseController<Category, CategoryService
 
     @Transactional
     @ResponseBody
+    @PostMapping("/categories")
     public ResponseEntity create(@RequestBody @Valid CategoryCreateForm newCategory, @RequestHeader("Authorization") String token) throws ServiceException {
         Category category = service.save(new Category(
                 newCategory.getName(),
@@ -31,6 +32,7 @@ public class CategoryController extends BaseController<Category, CategoryService
 
     @Transactional
     @ResponseBody
+    @PostMapping("/categories/{id}")
     public ResponseEntity update(@PathVariable("id") Long id, @RequestBody @Valid CategoryUpdateForm updatedCategory, @RequestHeader("Authorization") String token) throws ServiceException {
         Category category = service.get(id);
 
@@ -44,8 +46,38 @@ public class CategoryController extends BaseController<Category, CategoryService
         return ResponseEntity.ok(category);
     }
 
+    @ResponseBody
+    @GetMapping("/categories/filter-by/name")
     public Collection<Category> filterByName(@RequestParam("name") String name) {
         return service.filterByName(name);
+    }
+
+    @Override
+    @ResponseBody
+    @GetMapping("/categories/all")
+    public Iterable<Category> all() {
+        return super.all();
+    }
+
+    @Override
+    @ResponseBody
+    @GetMapping("/categories/{id}")
+    public ResponseEntity get(Long id) throws ServiceException {
+        return super.get(id);
+    }
+
+    @Override
+    @ResponseBody
+    @DeleteMapping("/categories/{id}")
+    public ResponseEntity delete(Long id, String token) throws ServiceException {
+        return super.delete(id, token);
+    }
+
+    @Override
+    @ResponseBody
+    @GetMapping("/categories/page/{pageNumber}")
+    public ResponseEntity getPage(int pageNumber) {
+        return super.getPage(pageNumber);
     }
 }
 

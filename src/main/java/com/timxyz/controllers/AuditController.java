@@ -41,13 +41,9 @@ public class AuditController extends BaseController<Audit, AuditService> {
         this.auditItemService = auditItemService;
     }
 
-    @ResponseBody
-    public ResponseEntity filterByName(@PathVariable("name") String name) {
-        return ResponseEntity.ok(service.getByName(name));
-    }
-
-    @ResponseBody
     @Transactional
+    @ResponseBody
+    @PostMapping("/audits/{id}/finalize")
     public ResponseEntity finalize(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) throws ServiceException {
         Audit audit = service.get(id);
 
@@ -62,6 +58,7 @@ public class AuditController extends BaseController<Audit, AuditService> {
 
     @Transactional
     @ResponseBody
+    @PostMapping("/audits")
     public ResponseEntity create(@RequestBody @Valid AuditCreateForm newAudit, @RequestHeader("Authorization") String token) throws ServiceException {
         Audit audit = service.save(new Audit(
                 newAudit.getName(),
@@ -72,14 +69,16 @@ public class AuditController extends BaseController<Audit, AuditService> {
         Collection<Item> items = itemService.getByLocation(newAudit.getLocationId());
 
         for (Item i : items) {
-            AuditItem auditItem = auditItemService.save(new AuditItem(i, audit));
+            auditItemService.save(new AuditItem(i, audit));
         }
 
         return ResponseEntity.ok(service.save(audit));
     }
 
+    @Override
     @Transactional
     @ResponseBody
+    @DeleteMapping("/audits/{id}")
     public ResponseEntity delete(@PathVariable("id") Long id, @RequestHeader("Authorization") String token) throws ServiceException {
         Audit audit = service.get(id);
 
@@ -93,5 +92,26 @@ public class AuditController extends BaseController<Audit, AuditService> {
         service.delete(id);
 
         return ResponseEntity.ok().build();
+    }
+
+    @Override
+    @ResponseBody
+    @GetMapping("/audits/all")
+    public Iterable<Audit> all() {
+        return super.all();
+    }
+
+    @Override
+    @ResponseBody
+    @GetMapping("/audits/{id}")
+    public ResponseEntity get(Long id) throws ServiceException {
+        return super.get(id);
+    }
+
+    @Override
+    @ResponseBody
+    @GetMapping("/audits/page/{pageNumber}")
+    public ResponseEntity getPage(int pageNumber) {
+        return super.getPage(pageNumber);
     }
 }
