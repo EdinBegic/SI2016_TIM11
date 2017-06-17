@@ -73,21 +73,21 @@ public class AccountController extends BaseController<Account, AccountService> {
     @Override
     @ResponseBody
     @GetMapping("/accounts/{id}")
-    public ResponseEntity get(Long id) throws ServiceException {
+    public ResponseEntity get(@PathVariable("id") Long id) throws ServiceException {
         return super.get(id);
     }
 
     @Override
     @ResponseBody
-    @DeleteMapping("/accounts/page/{pageNumber}")
-    public ResponseEntity delete(Long id, String token) throws ServiceException {
+    @DeleteMapping("/accounts/{id}")
+    public ResponseEntity delete(@PathVariable("id") Long id, String token) throws ServiceException {
         return super.delete(id, token);
     }
 
     @Override
     @ResponseBody
     @GetMapping("/accounts/page/{pageNumber}")
-    public ResponseEntity getPage(int pageNumber) {
+    public ResponseEntity getPage(@PathVariable("pageNumber") int pageNumber) {
         return super.getPage(pageNumber);
     }
 }

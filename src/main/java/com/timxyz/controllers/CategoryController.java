@@ -62,21 +62,21 @@ public class CategoryController extends BaseController<Category, CategoryService
     @Override
     @ResponseBody
     @GetMapping("/categories/{id}")
-    public ResponseEntity get(Long id) throws ServiceException {
+    public ResponseEntity get(@PathVariable("id") Long id) throws ServiceException {
         return super.get(id);
     }
 
     @Override
     @ResponseBody
     @DeleteMapping("/categories/{id}")
-    public ResponseEntity delete(Long id, String token) throws ServiceException {
+    public ResponseEntity delete(@PathVariable("id") Long id, String token) throws ServiceException {
         return super.delete(id, token);
     }
 
     @Override
     @ResponseBody
     @GetMapping("/categories/page/{pageNumber}")
-    public ResponseEntity getPage(int pageNumber) {
+    public ResponseEntity getPage(@PathVariable("pageNumber") int pageNumber) {
         return super.getPage(pageNumber);
     }
 }

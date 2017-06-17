@@ -68,21 +68,21 @@ public class LocationTypeController extends BaseController<LocationType, Locatio
     @Override
     @ResponseBody
     @GetMapping("/locationTypes/{id}")
-    public ResponseEntity get(Long id) throws ServiceException {
+    public ResponseEntity get(@PathVariable("id") Long id) throws ServiceException {
         return super.get(id);
     }
 
     @Override
     @ResponseBody
     @DeleteMapping("/locationTypes/{id}")
-    public ResponseEntity delete(Long id, String token) throws ServiceException {
+    public ResponseEntity delete(@PathVariable("id") Long id, String token) throws ServiceException {
         return super.delete(id, token);
     }
 
     @Override
     @ResponseBody
     @GetMapping("/locationTypes/page/{pageNumber}")
-    public ResponseEntity getPage(int pageNumber) {
+    public ResponseEntity getPage(@PathVariable("pageNumber") int pageNumber) {
         return super.getPage(pageNumber);
     }
 }

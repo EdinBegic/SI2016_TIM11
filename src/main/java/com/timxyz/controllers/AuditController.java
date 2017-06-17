@@ -104,14 +104,14 @@ public class AuditController extends BaseController<Audit, AuditService> {
     @Override
     @ResponseBody
     @GetMapping("/audits/{id}")
-    public ResponseEntity get(Long id) throws ServiceException {
+    public ResponseEntity get(@PathVariable("id") Long id) throws ServiceException {
         return super.get(id);
     }
 
     @Override
     @ResponseBody
     @GetMapping("/audits/page/{pageNumber}")
-    public ResponseEntity getPage(int pageNumber) {
+    public ResponseEntity getPage(@PathVariable("pageNumber") int pageNumber) {
         return super.getPage(pageNumber);
     }
 }
