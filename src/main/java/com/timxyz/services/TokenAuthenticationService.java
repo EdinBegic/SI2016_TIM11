@@ -31,9 +31,8 @@ public class TokenAuthenticationService {
     private static AccountRepository accountRepository;
     private static Logger logger = Logger.getLogger(TokenAuthenticationService.class.getName());
 
-    static final long EXPIRATIONTIME = 864_000_000; // 10 days
-    //kasnije ce se staviti prava tajna
-    static final String SECRET = "ThisIsASecret";
+    static final long EXPIRATIONTIME = 7_200_000; // 2 hours
+    static final String SECRET = "TSProject2018";
     static final String TOKEN_PREFIX = "Bearer";
     static final String FIELD_NAME_TOKEN = "jwt";
     static final String FIELD_NAME_ROLE = "role";
