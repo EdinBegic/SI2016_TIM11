@@ -46,7 +46,8 @@ let paths = {
 };
 
 // use webpack.config.js to build modules
-gulp.task('webpack', ['clean'], (cb) => {
+// removed clean task that was before build
+gulp.task('webpack', (cb) => {
   const config = require('./webpack.dist.config');
   config.entry.app = paths.entry;
 
@@ -95,7 +96,7 @@ gulp.task('serve', () => {
   });
 });
 
-gulp.task('watch', ['serve']);
+gulp.task('watch', gulp.series(['serve']));
 
 gulp.task('component', () => {
   const cap = (val) => {
@@ -116,11 +117,11 @@ gulp.task('component', () => {
     .pipe(gulp.dest(destPath));
 });
 
-gulp.task('clean', (cb) => {
+gulp.task('clean',  (cb) => {
   del([paths.dest]).then(function (paths) {
     gutil.log("[clean]", paths);
     cb();
   })
 });
 
-gulp.task('default', ['watch']);
+gulp.task('default', gulp.series(['watch']));

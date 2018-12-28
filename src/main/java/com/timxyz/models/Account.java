@@ -27,8 +27,15 @@ public class Account extends BaseModel {
         this.email = email;
         this.username = username;
         this.role = role;
-
         this.setRawPassword(password);
+    }
+
+    public Account(String fullName, String email, String username, String password, Role role, boolean seed) {
+        this.fullName = fullName;
+        this.email = email;
+        this.username = username;
+        this.role = role;
+        this.setPassword(password);
     }
 
     public Account() {
@@ -112,4 +119,5 @@ public class Account extends BaseModel {
     public void setRawPassword(String password) {
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
     }
+
 }

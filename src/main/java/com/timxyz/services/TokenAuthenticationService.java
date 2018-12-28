@@ -18,18 +18,13 @@ import javax.json.Json;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.logging.Logger;
 import java.io.IOException;
-
-import static java.util.Collections.emptyList;
-
 import com.timxyz.repositories.AccountRepository;
 import com.timxyz.models.Account;
 
 public class TokenAuthenticationService {
 
     private static AccountRepository accountRepository;
-    private static Logger logger = Logger.getLogger(TokenAuthenticationService.class.getName());
 
     static final long EXPIRATIONTIME = 7_200_000; // 2 hours
     static final String SECRET = "TSProject2018";
@@ -83,7 +78,6 @@ public class TokenAuthenticationService {
             .add(FIELD_NAME_ROLE, account.getRole().getName());
 
         JsonObject responseObj = objectBuilder.build();
-        logger.info(responseObj.toString());
         res.getWriter().write(responseObj.toString());
     }
 
