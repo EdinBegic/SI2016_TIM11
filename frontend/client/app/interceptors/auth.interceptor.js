@@ -11,10 +11,18 @@ function authInterceptor(jwtService, ENV, $state, $q, swalService, $injector) {
         },
 
         responseError: (rejection) => {
-            if (rejection.status === 401) { 
-                $injector.get('sessionService').destroySession();  
+            if (rejection.status === 401) {
+              console.log(jwtService.getToken());
+                if(jwtService.getToken() != null) {
+                  $injector.get('sessionService').destroySession();
+                  $state.go('home');
+                  swalService.error('Sesija istekla', 'Molimo prijavite se ponovo.');
+                }
+                else {
+                $injector.get('sessionService').destroySession();
                 $state.go('home');
                 swalService.error('Neuspješna prijava', 'Neispravno korisničko ime i/ili lozinka.');
+              }
             }
             else if (rejection.status === 403) {
                 $state.go('home');
@@ -23,13 +31,12 @@ function authInterceptor(jwtService, ENV, $state, $q, swalService, $injector) {
                 });
             }
             else if (rejection.status === -1) {
-                swalService.error('Greška', "Provjerite konekciju na internet. Ukoliko ustanovite da postoji konekcija obavijestite "
-                        + "administratora o grešci (admin@etf.unsa.ba). ");
+                $state.go('home');
             }
             else {
                 swalService.error(':(', rejection.data.message);
             }
-            
+
             return $q.reject(rejection);
         }
     }
