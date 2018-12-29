@@ -1,6 +1,5 @@
 export default {
-    API_URL: 'http://localhost:8080',
+    API_URL: 'https://localhost',
     BASE_URL: '/',
-    DEBUG: true,
-    ZVANICNI_POZDRAV: 'selam alejk'
+    DEBUG: true
 };

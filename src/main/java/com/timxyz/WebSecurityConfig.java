@@ -3,6 +3,7 @@ package com.timxyz;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -27,11 +28,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
+    @Autowired 
+    private SecurityProperties securityProperties;
+    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
+        if (securityProperties.isRequireSsl()) http.requiresChannel().anyRequest().requiresSecure();
 
+        http.csrf().disable().authorizeRequests()
             //.antMatchers(HttpMethod.GET,"/accounts/**").authenticated()
+            .antMatchers(HttpMethod.GET, "/index.html").permitAll()
             .antMatchers(HttpMethod.GET,"/audits/**", "/items/**", "/locations/**", "/categories/all").authenticated()
             .antMatchers("/accounts/**").hasRole(ROLE_ADMIN)
             .antMatchers(HttpMethod.DELETE, "/audits/**").hasRole(ROLE_ADMIN)
@@ -49,9 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/access-logs/**").hasAnyRole(ROLE_ADMIN, ROLE_FINANCE)
             .antMatchers("/reports/**").hasAnyRole(ROLE_ADMIN, ROLE_FINANCE)
             .antMatchers(HttpMethod.POST, "/login").permitAll()
-
             .anyRequest().authenticated()
-
             .and()
             // filtriramo sve zahtjeve za login sa nasim filterom JWTLoginFilter
             .addFilterBefore(new JWTLoginFilter("/login", authenticationManager()),
@@ -66,6 +70,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
+        web.ignoring().antMatchers("/index.html", "/*.js", "/*.css", "/");
+
     }
 
     @Override

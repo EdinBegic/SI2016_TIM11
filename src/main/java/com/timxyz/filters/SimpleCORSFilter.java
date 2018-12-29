@@ -28,7 +28,9 @@ public class SimpleCORSFilter implements Filter {
 
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
-
+        if (request.getMethod().equals("OPTIONS")) log.info("Desio se OPTIONS");
+        else log.info("Nije se desio OPTIONS");
+        
         log.info("SimpleCORSFilter ACTIVE");
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Credentials", "true");
