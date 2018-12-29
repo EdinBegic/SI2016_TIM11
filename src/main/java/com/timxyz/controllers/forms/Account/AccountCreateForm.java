@@ -21,8 +21,7 @@ public class AccountCreateForm {
     @Size(min = 8) @NotNull
     private String password;
 
-    // For now we will presume we have only three roles: 1, 2, 3
-    @Min(1) @Max(3) @NotNull
+    @NotNull
     private Long roleId;
 
     public String getFullName() {

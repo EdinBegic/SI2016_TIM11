@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
  */
 public class AccountUpdateForm {
 
-    @Min(1) @Max(3) @NotNull
+    @NotNull
     private Long roleId;
 
     public Long getRoleId() {
