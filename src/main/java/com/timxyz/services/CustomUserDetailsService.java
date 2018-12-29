@@ -19,23 +19,18 @@ import com.timxyz.models.Account;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    static Logger logger = Logger.getLogger(CustomUserDetailsService.class.getName());
 
     @Autowired
     private AccountRepository accountRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        logger.info("CUSTOM USER DETAILS SERVICE");
 
         Account account = accountRepository.findByUsername(username);
         if(account == null) {
             throw new UsernameNotFoundException("Username " + username +" not found");
         }
 
-        logger.info("LOAD USER BY USERNAME VIA CUSTOM USER DETAILS SERVICE\n" 
-            + account.getUsername() + " " + account.getPassword() + " " +  getGrantedAuthorities(account)
-            + "/" + account.getRole().getName());
 
         return new User(account.getUsername(), account.getPassword(), getGrantedAuthorities(account));
     }

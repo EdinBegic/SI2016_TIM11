@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // Korisnik sa administratorskim privilegijama ili korisnik finansijske službe može
                 // kreirati/obrisati novu prostoriju #LOL
             .antMatchers("/locations/**").hasAnyRole(ROLE_ADMIN,ROLE_FINANCE)
-            .antMatchers(HttpMethod.GET,"/locationTypes/**").hasAnyRole(ROLE_ADMIN, ROLE_FINANCE)
+            .antMatchers(HttpMethod.GET,"/locationTypes/**").hasAnyRole(ROLE_ADMIN)
             .antMatchers("/locationTypes/**").hasRole(ROLE_ADMIN)
             .antMatchers("/categories/**").hasRole(ROLE_ADMIN)
             .antMatchers(HttpMethod.GET,"/status/**").hasAnyRole(ROLE_ADMIN, ROLE_AUDIT_TEAM)
