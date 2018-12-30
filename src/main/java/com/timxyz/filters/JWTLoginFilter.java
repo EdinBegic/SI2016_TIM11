@@ -5,14 +5,18 @@ import com.timxyz.models.Account;
 import com.timxyz.models.Credentials;
 import com.timxyz.repositories.AccountRepository;
 import com.timxyz.services.TokenAuthenticationService;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.*;
+import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.context.WebApplicationContext;
@@ -26,6 +30,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
@@ -38,9 +44,14 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
         setAuthenticationManager(authManager);
     }
 
+
+
+
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res)
             throws AuthenticationException, IOException, ServletException {
+
 
         res.addHeader(HEADER_CORS, ALLOWED_ORIGIN);
 
@@ -53,14 +64,6 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
 
         Account account = accountRepository.findByUsername(creds.getUsername());
 
-        // precica zbog bcrypt hashiranja passworda 
-        if (account != null) {
-            if (BCrypt.checkpw(creds.getPassword(), account.getPassword()))
-                creds.setPassword(account.getPassword());
-            else
-                creds.setPassword("");
-        }
-
         Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
         if (account != null) {
@@ -68,7 +71,6 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
         }
         UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(creds.getUsername(),creds.getPassword(),
                 grantedAuthorities);
-
         return getAuthenticationManager().authenticate(upToken);
     }
 

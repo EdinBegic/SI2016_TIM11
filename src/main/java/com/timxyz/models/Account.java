@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -118,7 +119,9 @@ public class Account extends BaseModel {
     }
 
     public void setRawPassword(String password) {
-        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
+        String result = encoder.encode(password);
+        this.password = result;
     }
 
 }

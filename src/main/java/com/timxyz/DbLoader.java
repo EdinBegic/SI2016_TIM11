@@ -8,6 +8,7 @@ import com.timxyz.services.RoleService;
 import com.timxyz.services.StatusService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -45,14 +46,16 @@ public class DbLoader implements CommandLineRunner {
 
     private void addAccounts() {
         if (accountService.count() == 0) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
+            String result = encoder.encode("12345678");
             Role roleAdmin = roleService.find("ROLE_ADMIN");
-            Account adminAccount = new Account("admin", "admin@etf.unsa.ba", "admin", "$2a$12$9hTbk5TvscTpyF4jd//PbOdpoGB5h1PpvqHO5EitHV2P9sw6.wqs2", roleAdmin, true);
+            Account adminAccount = new Account("admin", "admin@etf.unsa.ba", "admin", result,roleAdmin, true);
             accountService.save(adminAccount);
             Role roleFinance = roleService.find("ROLE_FINANCE");
-            Account financeAccount = new Account("Finance", "finance@etf.unsa.ba", "finance", "$2a$12$9hTbk5TvscTpyF4jd//PbOdpoGB5h1PpvqHO5EitHV2P9sw6.wqs2", roleFinance, true);
+            Account financeAccount = new Account("Finance", "finance@etf.unsa.ba", "finance", result, roleFinance, true);
             accountService.save(financeAccount);
             Role roleAuditTeam = roleService.find("ROLE_AUDITTEAM");
-            Account auditTeamAccount = new Account("Audit Team", "auditteam@etf.unsa.ba", "auditteam", "$2a$12$9hTbk5TvscTpyF4jd//PbOdpoGB5h1PpvqHO5EitHV2P9sw6.wqs2", roleAuditTeam, true);
+            Account auditTeamAccount = new Account("Audit Team", "auditteam@etf.unsa.ba", "auditteam", result, roleAuditTeam, true);
             accountService.save(auditTeamAccount);
         }
     }
