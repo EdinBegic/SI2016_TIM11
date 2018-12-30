@@ -67,7 +67,7 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
             grantedAuthorities.add(new SimpleGrantedAuthority(account.getRole().getName()));
         }
         UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(creds.getUsername(),creds.getPassword(),
-                grantedAuthorities;
+                grantedAuthorities);
 
         return getAuthenticationManager().authenticate(upToken);
     }
