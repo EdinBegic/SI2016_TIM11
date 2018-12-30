@@ -24,9 +24,7 @@ public class AccessLogController extends ReadOnlyController<AccessLog, AccessLog
     @ResponseBody
     @GetMapping("/access-logs/page/{pageNumber}")
     public ResponseEntity getPage(@PathVariable("pageNumber") int pageNumber) {
-        Pageable page = new PageRequest(pageNumber-1, 20, Sort.Direction.DESC, "date");
-
-        return ResponseEntity.ok(service.listAllByPage(page));
+        return ResponseEntity.ok(service.listAllByPage(PageRequest.of(pageNumber-1, 20, Sort.Direction.DESC, "date")));
     }
 
     @Override

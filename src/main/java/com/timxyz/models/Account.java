@@ -3,10 +3,11 @@ package com.timxyz.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.validator.constraints.Email;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -54,7 +55,8 @@ public class Account extends BaseModel {
 
     @Basic
     @Column(name = "email", unique = true, nullable = false)
-    @Email @Size(max = 255) @NotNull
+    @Email
+    @Size(max = 255) @NotNull
     public String getEmail() {
         return email;
     }
@@ -117,7 +119,9 @@ public class Account extends BaseModel {
     }
 
     public void setRawPassword(String password) {
-        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
+        String result = encoder.encode(password);
+        this.password = result;
     }
 
 }

@@ -1,11 +1,8 @@
 package com.timxyz.controllers.forms.Account;
 
-import org.hibernate.validator.constraints.Email;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+
+import javax.validation.constraints.*;
 
 public class AccountCreateForm {
 
@@ -15,7 +12,8 @@ public class AccountCreateForm {
     @Size(min = 4, max = 16) @NotNull
     private String username;
 
-    @Email @Size(max = 255) @NotNull
+    @Email
+    @Size(max = 255) @NotNull
     private String email;
 
     @Size(min = 8) @NotNull

@@ -24,7 +24,7 @@ public class BaseService<M extends BaseModel, R extends PagingAndSortingReposito
             return null;
         }
 
-        M model = repository.findOne(id);
+        M model = repository.findById(id).get();
 
         if(model == null) {
             throw new ServiceException("Nije pronađen zapis sa tim ID brojem.");
@@ -39,14 +39,14 @@ public class BaseService<M extends BaseModel, R extends PagingAndSortingReposito
 
     public void delete(Long id) throws ServiceException {
         try {
-            repository.delete(id);
+            repository.deleteById(id);
         }
         catch (Exception e) {
             throw new ServiceException("Zapis se ne može obrisati jer je povezan sa drugim zapisima.");
         }
     }
 
-    public Boolean exists(Long id) { return repository.exists(id); }
+    public Boolean exists(Long id) { return repository.existsById(id); }
 
     public Long count() { return repository.count(); }
 

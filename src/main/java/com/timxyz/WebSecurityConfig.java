@@ -1,5 +1,6 @@
 package com.timxyz;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
@@ -25,6 +27,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final String ROLE_FINANCE = "FINANCE";
     private final String ROLE_AUDIT_TEAM = "AUDITTEAM";
 
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    };
+
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
@@ -33,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        if (securityProperties.isRequireSsl()) http.requiresChannel().anyRequest().requiresSecure();
+        http.requiresChannel().anyRequest().requiresSecure();
 
         http.csrf().disable().authorizeRequests()
             //.antMatchers(HttpMethod.GET,"/accounts/**").authenticated()
@@ -76,7 +83,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserDetailsService);
+        auth.userDetailsService(customUserDetailsService).passwordEncoder(passwordEncoder());
        /* auth.inMemoryAuthentication()
             .withUser("admin")
             .password("adminpass")

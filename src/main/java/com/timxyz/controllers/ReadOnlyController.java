@@ -36,8 +36,6 @@ public abstract class ReadOnlyController<M extends BaseModel, S extends ReadOnly
     }
 
     public ResponseEntity getPage(@PathVariable("pageNumber") int pageNumber) {
-        Pageable page = new PageRequest(pageNumber - 1, 5);
-
-        return ResponseEntity.ok(service.listAllByPage(page));
+        return ResponseEntity.ok(service.listAllByPage(PageRequest.of(pageNumber - 1, 5)));
     }
 }

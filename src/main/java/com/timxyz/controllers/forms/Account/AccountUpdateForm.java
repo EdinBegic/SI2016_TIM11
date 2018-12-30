@@ -1,6 +1,6 @@
 package com.timxyz.controllers.forms.Account;
 
-import org.hibernate.validator.constraints.Email;
+
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;

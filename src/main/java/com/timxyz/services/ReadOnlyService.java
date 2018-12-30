@@ -21,7 +21,7 @@ public class ReadOnlyService<M extends BaseModel, R extends PagingAndSortingRepo
 
     public M get(Long id) throws ServiceException {
         if(id == null) return null;
-        M model = repository.findOne(id);
+        M model = repository.findById(id).get();
         if(model == null)
             throw new ServiceException("Nije pronađen zapis sa tim ID brojem.");
 
@@ -32,7 +32,7 @@ public class ReadOnlyService<M extends BaseModel, R extends PagingAndSortingRepo
         return repository.save(model);
     }
 
-    public Boolean exists(Long id) { return repository.exists(id); }
+    public Boolean exists(Long id) { return repository.existsById(id); }
 
     public Long count() { return repository.count(); }
 
