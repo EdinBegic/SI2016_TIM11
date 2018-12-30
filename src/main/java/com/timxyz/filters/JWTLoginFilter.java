@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -65,14 +66,10 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
         if (account != null) {
             grantedAuthorities.add(new SimpleGrantedAuthority(account.getRole().getName()));
         }
+        UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(creds.getUsername(),creds.getPassword(),
+                grantedAuthorities;
 
-        return getAuthenticationManager().authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        creds.getUsername(),
-                        creds.getPassword(),
-                        grantedAuthorities //Collections.emptyList()
-                )
-        );
+        return getAuthenticationManager().authenticate(upToken);
     }
 
     @Override

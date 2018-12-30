@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        if (securityProperties.isRequireSsl()) http.requiresChannel().anyRequest().requiresSecure();
+        http.requiresChannel().anyRequest().requiresSecure();
 
         http.csrf().disable().authorizeRequests()
             //.antMatchers(HttpMethod.GET,"/accounts/**").authenticated()
