@@ -26,6 +26,6 @@ export default class LocationService extends BaseService {
     }
 
     filterByName(name) {
-        return super.get('locations/filter-by/name/' + name);
+        return super.get('locations/filter-by/name?name=' + name);
     }
 }

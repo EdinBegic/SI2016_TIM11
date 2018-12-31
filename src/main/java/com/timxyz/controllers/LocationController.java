@@ -59,8 +59,8 @@ public class LocationController extends BaseController<Location, LocationService
     }
 
     @ResponseBody
-    @GetMapping("/locations/filter-by/name/{name}")
-    public Collection<Location> filterByName(@PathVariable("name") String name) {
+    @GetMapping("/locations/filter-by/name")
+    public Collection<Location> filterByName(@RequestParam("name") String name) {
         return service.filterByName(name);
     }
 
